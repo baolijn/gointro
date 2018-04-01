@@ -14,6 +14,16 @@ func main() {
 	defer file.Close()
 	p := pipeline.RandomSource(50)
 	pipeline.WriterSink(file, p)
+
+	file, err = os.Open("int.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	p = pipeline.ReadSource(file)
+	for i := range p {
+		fmt.Println(i)
+	}
 }
 
 func mergeDemo() {
