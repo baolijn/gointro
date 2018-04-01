@@ -5,12 +5,12 @@ import "sort"
 func ArraySort(arr []int) chan int {
 	out := make(chan int)
 
-		go func() {
-			for _, v := range arr {
-				out <- v
-			}
-			close(out)
-		}()
+	go func() {
+		for _, v := range arr {
+			out <- v
+		}
+		close(out)
+	}()
 
 	return out
 }
@@ -29,6 +29,25 @@ func InMemorySort(in chan int) chan int {
 		//output
 		for _, v := range a {
 			out <- v
+		}
+		close(out)
+	}()
+	return out
+}
+
+func Merge(in1, in2 chan int) chan int {
+	out := make(chan int)
+	go func() {
+		v1, ok1 := <-in1
+		v2, ok2 := <-in2
+		for ok1 || ok2 {
+			if !ok2 || (ok1 && v1 <= v2) {
+				out <- v1
+				v1, ok1 = <- in1
+			} else {
+				out <- v2
+				v2, ok2 = <- in2
+			}
 		}
 		close(out)
 	}()
