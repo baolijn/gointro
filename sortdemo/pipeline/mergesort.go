@@ -1,4 +1,4 @@
-package main
+package pipeline
 
 import "fmt"
 
@@ -24,13 +24,13 @@ func merge(arr []int, l int, mid int, r int)  {
 }
 
 func mergesort(arr []int)  {
-	_mergesort(arr, 0, len(arr)-1)
+	msort(arr, 0, len(arr)-1)
 }
 
-func _mergesort(arr []int, l int, r int) {
+func msort(arr []int, l int, r int) {
 	mid := (l + r)/2;
-	_mergesort(arr, l, mid)
-	_mergesort(arr, mid + 1, r)
+	msort(arr, l, mid)
+	msort(arr, mid + 1, r)
 	merge(arr, l, mid, r)
 }
 
